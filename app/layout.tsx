@@ -12,11 +12,11 @@ export const metadata: Metadata = {
   description: "Film and TV Database",
 };
 
-export const RootLayout = async ({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>) => {
+}>) {
   const imageConfig = await fetchConfig();
   return (
     <html lang="en">
@@ -28,6 +28,4 @@ export const RootLayout = async ({
       </body>
     </html>
   );
-};
-
-export default RootLayout;
+}
