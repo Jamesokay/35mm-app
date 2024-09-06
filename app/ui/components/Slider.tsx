@@ -36,22 +36,22 @@ const Slider: React.FC<{ children: ReactNode; title: string }> = ({ children, ti
   }, []);
 
   return (
-    <div className="flex flex-col w-full gap-8 relative">
+    <div className="flex flex-col w-full relative">
       <div className="flex gap-8 px-24">
         <h2 className="text-3xl font-semibold">{title}</h2>
-        <div className="flex gap-4">
+        {/* <div className="flex gap-4">
           <button className="text-35mm-green-bright border-b border-35mm-green-bright font-semibold">
             Today
           </button>
           <button className="text-35mm-off-white transition-all hover:text-white">
             This Week
           </button>
-        </div>
+        </div> */}
       </div>
 
-      <div className="relative w-full overflow-hidden">
+      <div className="relative w-full">
         <button
-          className={`absolute left-0 top-1/2 transform -translate-y-1/2 bg-gradient-to-r from-[rgba(16,16,16,0.8)] to-transparent h-full w-24 flex items-center justify-center text-white p-2 z-10 transition-opacity duration-300 ${
+          className={`absolute left-0 top-1/2 transform -translate-y-1/2 bg-gradient-to-r from-[rgba(16,16,16,0.8)] to-transparent h-full w-24 flex items-center justify-center text-white p-2 z-50 transition-opacity duration-300 ${
             showLeftArrow ? "opacity-100" : "opacity-0"
           }`}
           onClick={scrollLeft}
@@ -61,7 +61,7 @@ const Slider: React.FC<{ children: ReactNode; title: string }> = ({ children, ti
           </div>
         </button>
         <div
-          className="flex px-24 overflow-x-scroll scrollbar-hide scroll-snap-x"
+          className="flex gap-4 px-24 py-8 overflow-x-scroll scrollbar-hide scroll-snap-x"
           ref={sliderRef}
           onScroll={handleScroll}
           style={{ scrollSnapType: "x mandatory" }}
@@ -69,7 +69,7 @@ const Slider: React.FC<{ children: ReactNode; title: string }> = ({ children, ti
           {children}
         </div>
         <button
-          className={`absolute right-0 top-1/2 transform -translate-y-1/2 bg-gradient-to-l from-[rgba(16,16,16,0.8)] to-transparent h-full w-24 flex items-center justify-center text-white p-2 z-10 transition-opacity duration-300 ${
+          className={`absolute right-0 top-1/2 transform -translate-y-1/2 bg-gradient-to-l from-[rgba(16,16,16,0.8)] to-transparent h-full w-24 flex items-center justify-center text-white p-2 z-50 transition-opacity duration-300 ${
             showRightArrow ? "opacity-100" : "opacity-0"
           }`}
           onClick={scrollRight}

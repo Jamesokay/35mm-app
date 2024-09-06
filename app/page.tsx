@@ -18,7 +18,7 @@ const Home = async () => {
       </div>
       <div className="flex flex-col bg-35mm-hero-search-gradient pt-[50dvh] pb-16 z-20 gap-16">
         <HeroSearch />
-        <div className="flex flex-col gap-8">
+        <div className="flex flex-col gap-6">
           <Slider title="Popular">
             {popular?.map((result) => (
               <PosterCard key={result.id} movie={result} />
