@@ -1,6 +1,13 @@
-'use server'
+"use server";
 
-import { ClientError, ImageConfig, MovieResult, NetworkError, ServerError } from "./types";
+import {
+  ClientError,
+  ImageConfig,
+  MovieDetails,
+  MovieResult,
+  NetworkError,
+  ServerError,
+} from "./types";
 
 const API_URL = "https://api.themoviedb.org/3";
 const token = process.env.TMDB_READ_ACCESS;
@@ -48,19 +55,16 @@ const handleNoToken = (): null => {
 };
 
 export const fetchConfig = async (): Promise<ImageConfig | null> => {
-    if (!token) return handleNoToken();
-    const options = getHeaders("GET");
-    try {
-      const response = await fetch(
-        `${API_URL}/configuration`,
-        options
-      );
-      const data = await handleResponse(response);
-      return data?.images;
-    } catch (err) {
-      return handleError(err, "Error fetching image configuration data");
-    }
-  };
+  if (!token) return handleNoToken();
+  const options = getHeaders("GET");
+  try {
+    const response = await fetch(`${API_URL}/configuration`, options);
+    const data = await handleResponse(response);
+    return data?.images;
+  } catch (err) {
+    return handleError(err, "Error fetching image configuration data");
+  }
+};
 
 export const fetchMovies = async (
   type: "popular" | "top_rated" | "upcoming" | "now_playing"
@@ -76,5 +80,22 @@ export const fetchMovies = async (
     return data?.results;
   } catch (err) {
     return handleError(err, `Error fetching ${type}`);
+  }
+};
+
+export const fetchMovieById = async (
+  movie_id: string
+): Promise<MovieDetails | null> => {
+  if (!token) return handleNoToken();
+  const options = getHeaders("GET");
+  try {
+    const response = await fetch(
+      `${API_URL}/movie/${movie_id}?language=en-US`,
+      options
+    );
+    const data = await handleResponse(response);
+    return data;
+  } catch (err) {
+    return handleError(err, `Error fetching movie id:${movie_id}`);
   }
 };

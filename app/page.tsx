@@ -16,7 +16,7 @@ const Home = async () => {
           src="/hero-search-image-2.jpg"
         />
       </div>
-      <div className="flex flex-col bg-35mm-hero-search-gradient pt-[50dvh] pb-16 z-20 gap-16">
+      <div className="flex flex-col bg-35mm-homepage-gradient pt-[50dvh] pb-16 z-20 gap-16">
         <HeroSearch />
         <div className="flex flex-col gap-6">
           <Slider title="Popular">

@@ -2,8 +2,8 @@ const HeroSearch = () => {
   return (
       <div className="w-full flex flex-col gap-4 pl-24">
         <div className="flex flex-col gap-2">
-          <h2 className="text-6xl hero-text font-semibold">Welcome</h2>
-          <h3 className="text-3xl hero-text font-medium">
+          <h2 className="text-6xl overlay-text font-semibold">Welcome</h2>
+          <h3 className="text-3xl overlay-text font-medium">
             Discover millions of movies, shows and people
           </h3>
         </div>

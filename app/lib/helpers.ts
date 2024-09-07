@@ -1,5 +1,4 @@
-import { ImageConfig } from "./types";
-
+import { Genre, ImageConfig } from "./types";
 
 // Generate srcset based on available sizes and filePath
 export const constructSrcSet = (
@@ -47,4 +46,23 @@ export const formatDateString = (dateString: string): string => {
 
   // Return formatted string
   return `${day} ${month} ${year}`;
+};
+
+export const formatMovieDuration = (minutes: number): string => {
+  if (minutes < 60) {
+    return `${minutes}mins`;
+  }
+
+  const hours = Math.floor(minutes / 60);
+  const remainingMinutes = minutes % 60;
+
+  if (remainingMinutes === 0) {
+    return `${hours}h`;
+  }
+
+  return `${hours}h ${remainingMinutes}m`;
+};
+
+export const formatGenres = (genres: Genre[]): string => {
+  return genres.map((genre) => genre.name).join(", ");
 };

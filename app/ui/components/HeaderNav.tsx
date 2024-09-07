@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
@@ -8,7 +8,7 @@ const HeaderNav = () => {
   const [lastScrollY, setLastScrollY] = useState(0);
 
   const handleScroll = () => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       const currentScrollY = window.scrollY;
 
       if (currentScrollY > 10) {
@@ -24,7 +24,7 @@ const HeaderNav = () => {
   };
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       window.addEventListener("scroll", handleScroll);
 
       return () => {
@@ -40,9 +40,11 @@ const HeaderNav = () => {
       }`}
     >
       <div className="flex items-center gap-16">
-        <div className="flex items-center text-5xl font-bold">
-          35<span className="text-xs">mm</span>
-        </div>
+        <Link href="/">
+          <div className="flex items-center text-5xl font-bold">
+            35<span className="text-xs">mm</span>
+          </div>
+        </Link>
         <nav className="flex gap-8">
           <Link
             href="/movies"
