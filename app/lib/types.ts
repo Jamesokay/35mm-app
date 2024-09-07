@@ -80,6 +80,21 @@ export type CrewMember = MovieCredit & {
   job: string;
 };
 
+export type Review = {
+  author: string;
+  author_details: {
+    name: string;
+    username: string;
+    avatar_path: string | null;
+    rating: number;
+  };
+  content: string;
+  created_at: Date;
+  id: string;
+  updated_at: Date;
+  url: string;
+};
+
 export type MovieDetails = {
   adult: boolean;
   backdrop_path: string | null;
@@ -111,6 +126,15 @@ export type MovieDetails = {
     cast: CastMember[];
     crew: CrewMember[];
   };
+  reviews?: {
+    id: number;
+    page: number;
+    results: Review[];
+  };
+  recommendations?: {
+    page: number;
+    results: MovieResult[];
+  }
 };
 
 // Custom Error Types

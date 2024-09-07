@@ -2,12 +2,12 @@ import { fetchMovieById } from "@/app/lib/actions";
 import {
   convertVoteAverageToPercentage,
   formatDateString,
-  formatGenres,
   formatMovieDuration,
 } from "@/app/lib/helpers";
 import CircularRating from "@/app/ui/components/CircularRating";
 import ImageComponent from "@/app/ui/components/ImageComponent";
 import PersonCard from "@/app/ui/components/PersonCard";
+import PosterCard from "@/app/ui/components/PosterCard";
 import Slider from "@/app/ui/components/Slider";
 import BookmarkIcon from "@/app/ui/svg/BookmarkIcon";
 import HeartIcon from "@/app/ui/svg/HeartIcon";
@@ -23,6 +23,7 @@ export default async function Page({ params }: { params: { id: string } }) {
   const castSection = movie?.credits?.cast?.filter(
     (castMember) => castMember?.profile_path
   );
+  const recommendations = movie?.recommendations?.results;
 
   return (
     <main className="flex flex-col">
@@ -36,26 +37,39 @@ export default async function Page({ params }: { params: { id: string } }) {
           />
         </div>
       )}
-      <div className="flex flex-col pt-[25dvh] pb-16 z-20">
+      <div className="flex flex-col pt-[25dvh] z-20">
         <div className="flex px-24 gap-8 bg-35mm-backdrop-gradient">
           {movie?.poster_path && (
             <ImageComponent
-              className="w-[300px] h-auto rounded-md"
+              className="w-[300px] min-w-[300px] h-auto rounded-md"
               type="poster_sizes"
               filePath={movie?.poster_path}
             />
           )}
           <div className="flex flex-col gap-4 flex-auto justify-end">
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-3">
               <h1 className="text-5xl font-medium overlay-text">
                 {movie.title}
               </h1>
-              <div className="flex gap-2 text-sm text-35mm-off-white overlay-text">
+              <div className="flex text-sm gap-1 text-35mm-off-white overlay-text">
                 <span>{formatDateString(movie?.release_date)}</span>
-                <span>{formatGenres(movie.genres)}</span>
                 {movie?.runtime && (
-                  <span>{formatMovieDuration(movie?.runtime)}</span>
+                  <>
+                    <span className="opacity-70 font-bold">·</span>
+                    <span>{formatMovieDuration(movie?.runtime)}</span>
+                  </>
                 )}
+              </div>
+
+              <div className="flex gap-2">
+                {movie.genres?.map((genre) => (
+                  <button
+                    key={genre.id}
+                    className="bg-35mm-black-dark-opal border border-gray-300 transition-all shadow-none duration-300 hover:text-35mm-green-bright hover:border-35mm-green-bright hover:shadow-35mm-green-glow rounded-full text-sm px-2 py-1"
+                  >
+                    {genre.name}
+                  </button>
+                ))}
               </div>
             </div>
 
@@ -88,11 +102,22 @@ export default async function Page({ params }: { params: { id: string } }) {
           </div>
         </div>
         <div className="py-12 bg-35mm-black-dark">
-          <Slider title="Cast" secondaryButton={
-            <button className="text-sm text-35mm-off-white font-medium transition-colors duration-300 hover:text-35mm-green-bright ml-auto">View full cast & crew</button>
-          }>
+          <Slider
+            title="Cast"
+            secondaryButton={
+              <button className="text-sm text-35mm-off-white font-medium transition-colors duration-300 hover:text-35mm-green-bright ml-auto">
+                View full cast & crew
+              </button>
+            }
+          >
             {castSection?.slice(0, 10)?.map((castMember) => (
               <PersonCard key={castMember?.id} person={castMember} />
+            ))}
+          </Slider>
+          {/* Alternate Panel for Upcoming */}
+          <Slider title="Viewers Also Liked">
+            {recommendations?.map((relatedMovie) => (
+              <PosterCard key={relatedMovie.id} movie={relatedMovie} />
             ))}
           </Slider>
         </div>

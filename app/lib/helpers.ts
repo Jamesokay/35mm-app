@@ -1,4 +1,4 @@
-import { Genre, ImageConfig } from "./types";
+import { ImageConfig } from "./types";
 
 // Generate srcset based on available sizes and filePath
 export const constructSrcSet = (
@@ -12,16 +12,21 @@ export const constructSrcSet = (
 
   // Construct the srcset by mapping sizes to the appropriate URL
   const srcSet = availableSizes
-    .map(
-      (size) =>
-        `${
-          config.secure_base_url || config.base_url
-        }${size}/${filePath} ${getWidthFromSize(size)}w`
-    )
+    .map((size) => {
+      // If the size is "original", omit the width descriptor
+      if (size === 'original') {
+        return `${config.secure_base_url || config.base_url}${size}/${filePath}`;
+      }
+
+      return `${
+        config.secure_base_url || config.base_url
+      }${size}/${filePath} ${getWidthFromSize(size)}w`;
+    })
     .join(", ");
 
   return srcSet;
 };
+
 
 // Helper function to extract the numeric width from the size string
 const getWidthFromSize = (size: string): number => {
@@ -59,8 +64,4 @@ export const formatMovieDuration = (minutes: number): string => {
   }
 
   return `${hours}h ${remainingMinutes}m`;
-};
-
-export const formatGenres = (genres: Genre[]): string => {
-  return genres.map((genre) => genre.name).join(", ");
 };

@@ -90,7 +90,7 @@ export const fetchMovieById = async (
   const options = getHeaders("GET");
   try {
     const response = await fetch(
-      `${API_URL}/movie/${movie_id}?append_to_response=credits&language=en-US`,
+      `${API_URL}/movie/${movie_id}?append_to_response=credits,recommendations,reviews&language=en-US`,
       options
     );
     const data = await handleResponse(response);
