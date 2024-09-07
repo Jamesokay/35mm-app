@@ -18,6 +18,7 @@ const config: Config = {
         "35mm-black-dark-opal": "rgba(16, 16, 16, 0.8)",
         "35mm-black-md": "rgba(24, 24, 24, 0.8)",
         "35mm-black-dark": "rgb(16, 16, 16)",
+        "35mm-black-header": "rgb(27, 27, 27)"
       },
       colors: {
         "35mm-green-bright": "#08e8a1",

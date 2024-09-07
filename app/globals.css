@@ -21,11 +21,7 @@ body {
 }
 
 .overlay-text {
-  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
-}
-
-header {
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4);
 }
 
 .scrollbar-hide {

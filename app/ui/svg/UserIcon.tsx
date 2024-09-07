@@ -1,4 +1,4 @@
-const BookmarkIcon = () => {
+const UserIcon = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -11,9 +11,10 @@ const BookmarkIcon = () => {
       strokeLinecap="round"
       strokeLinejoin="round"
     >
-      <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+      <circle cx="12" cy="7" r="4"></circle>
     </svg>
   );
 };
 
-export default BookmarkIcon;
+export default UserIcon;

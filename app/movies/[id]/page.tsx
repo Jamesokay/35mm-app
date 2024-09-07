@@ -7,6 +7,8 @@ import {
 } from "@/app/lib/helpers";
 import CircularRating from "@/app/ui/components/CircularRating";
 import ImageComponent from "@/app/ui/components/ImageComponent";
+import PersonCard from "@/app/ui/components/PersonCard";
+import Slider from "@/app/ui/components/Slider";
 import BookmarkIcon from "@/app/ui/svg/BookmarkIcon";
 import HeartIcon from "@/app/ui/svg/HeartIcon";
 import ListIcon from "@/app/ui/svg/ListIcon";
@@ -17,6 +19,10 @@ export default async function Page({ params }: { params: { id: string } }) {
   const movie = await fetchMovieById(id);
 
   if (!movie) notFound();
+
+  const castSection = movie?.credits?.cast?.filter(
+    (castMember) => castMember?.profile_path
+  );
 
   return (
     <main className="flex flex-col">
@@ -30,7 +36,7 @@ export default async function Page({ params }: { params: { id: string } }) {
           />
         </div>
       )}
-      <div className="flex flex-col pt-[30dvh] pb-16 z-20">
+      <div className="flex flex-col pt-[25dvh] pb-16 z-20">
         <div className="flex px-24 gap-8 bg-35mm-backdrop-gradient">
           {movie?.poster_path && (
             <ImageComponent
@@ -41,7 +47,9 @@ export default async function Page({ params }: { params: { id: string } }) {
           )}
           <div className="flex flex-col gap-4 flex-auto justify-end">
             <div className="flex flex-col gap-2">
-              <h1 className="text-5xl font-medium overlay-text">{movie.title}</h1>
+              <h1 className="text-5xl font-medium overlay-text">
+                {movie.title}
+              </h1>
               <div className="flex gap-2 text-sm text-35mm-off-white overlay-text">
                 <span>{formatDateString(movie?.release_date)}</span>
                 <span>{formatGenres(movie.genres)}</span>
@@ -63,25 +71,31 @@ export default async function Page({ params }: { params: { id: string } }) {
               </div>
               <div className="flex flex-col gap-2">
                 <h3 className="text-xl font-medium">Overview</h3>
-                <p className="text-35mm-off-white">
-                  {movie.overview}
-                </p>
+                <p className="text-35mm-off-white">{movie.overview}</p>
               </div>
               <div className="flex gap-3">
                 <button className="rounded-full w-10 h-10 p-3 border border-gray-300 transition-all shadow-none duration-300 hover:text-35mm-green-bright hover:border-35mm-green-bright hover:shadow-35mm-green-glow flex items-center justify-center bg-35mm-black-dark-opal">
-                    <ListIcon />
+                  <ListIcon />
                 </button>
                 <button className="rounded-full w-10 h-10 p-3 border border-gray-300 transition-all shadow-none duration-300 hover:text-35mm-green-bright hover:border-35mm-green-bright hover:shadow-35mm-green-glow flex items-center justify-center bg-35mm-black-dark-opal">
-                    <HeartIcon />
+                  <HeartIcon />
                 </button>
                 <button className="rounded-full w-10 h-10 p-3 border border-gray-300 transition-all shadow-none duration-300 hover:text-35mm-green-bright hover:border-35mm-green-bright hover:shadow-35mm-green-glow flex items-center justify-center bg-35mm-black-dark-opal">
-                    <BookmarkIcon />
+                  <BookmarkIcon />
                 </button>
               </div>
             </div>
           </div>
         </div>
-        <div className="h-[1200px] bg-35mm-black-dark"></div>
+        <div className="py-12 bg-35mm-black-dark">
+          <Slider title="Cast" secondaryButton={
+            <button className="text-sm text-35mm-off-white font-medium transition-colors duration-300 hover:text-35mm-green-bright ml-auto">View full cast & crew</button>
+          }>
+            {castSection?.slice(0, 10)?.map((castMember) => (
+              <PersonCard key={castMember?.id} person={castMember} />
+            ))}
+          </Slider>
+        </div>
       </div>
     </main>
   );

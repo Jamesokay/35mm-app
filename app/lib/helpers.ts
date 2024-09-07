@@ -6,9 +6,7 @@ export const constructSrcSet = (
   type: keyof Omit<ImageConfig, "secure_base_url" | "base_url">,
   filePath: string
 ): string => {
-  if (!config || !filePath) {
-    throw new Error("Invalid configuration or file path.");
-  }
+  if (!config || !filePath) return '';
 
   const availableSizes = config[type];
 

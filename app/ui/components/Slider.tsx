@@ -3,7 +3,7 @@
 import { ReactNode, useRef, useState, useEffect } from "react";
 import ArrowIcon from "../svg/ArrowIcon";
 
-const Slider: React.FC<{ children: ReactNode; title: string }> = ({ children, title  }) => {
+const Slider: React.FC<{ children: ReactNode; title: string, secondaryButton?: ReactNode }> = ({ children, title, secondaryButton = null  }) => {
   const sliderRef = useRef<HTMLDivElement>(null);
   const [showLeftArrow, setShowLeftArrow] = useState(false);
   const [showRightArrow, setShowRightArrow] = useState(true);
@@ -37,16 +37,9 @@ const Slider: React.FC<{ children: ReactNode; title: string }> = ({ children, ti
 
   return (
     <div className="flex flex-col w-full relative">
-      <div className="flex gap-8 px-24">
+      <div className="flex gap-8 px-24 w-full">
         <h2 className="text-3xl font-semibold">{title}</h2>
-        {/* <div className="flex gap-4">
-          <button className="text-35mm-green-bright border-b border-35mm-green-bright font-semibold">
-            Today
-          </button>
-          <button className="text-35mm-off-white transition-all hover:text-white">
-            This Week
-          </button>
-        </div> */}
+        {secondaryButton}
       </div>
 
       <div className="relative w-full">

@@ -57,7 +57,6 @@ type SpokenLanguage = {
   name: string;
 };
 
-
 type MovieCredit = {
   adult: boolean;
   gender: number;
@@ -108,7 +107,10 @@ export type MovieDetails = {
   video: boolean;
   vote_average: number;
   vote_count: number;
-  credits?: CastMember | CrewMember
+  credits?: {
+    cast: CastMember[];
+    crew: CrewMember[];
+  };
 };
 
 // Custom Error Types
