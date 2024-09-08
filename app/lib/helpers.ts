@@ -8,19 +8,21 @@ export const constructSrcSet = (
 ): string => {
   if (!config || !filePath) return '';
 
-  const availableSizes = config[type];
+  let availableSizes = config[type];
+
+  // Filter out sizes greater than 500 and exclude "original" for poster_sizes
+  if (type === 'poster_sizes') {
+    availableSizes = availableSizes.filter(size => {
+      const width = getWidthFromSize(size); // Extract the numeric width
+      return width !== null && width <= 500; // Keep sizes that are <= 500, exclude "original"
+    });
+  }
 
   // Construct the srcset by mapping sizes to the appropriate URL
   const srcSet = availableSizes
     .map((size) => {
-      // If the size is "original", omit the width descriptor
-      if (size === 'original') {
-        return `${config.secure_base_url || config.base_url}${size}/${filePath}`;
-      }
-
-      return `${
-        config.secure_base_url || config.base_url
-      }${size}/${filePath} ${getWidthFromSize(size)}w`;
+      const width = getWidthFromSize(size); // Get the width from the size string
+      return `${config.secure_base_url || config.base_url}${size}/${filePath} ${width}w`;
     })
     .join(", ");
 

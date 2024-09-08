@@ -52,6 +52,7 @@ const ImageComponent: FC<ImageProps> = ({
         onLoad={() => {
           setLoaded(true);
         }}
+        loading="lazy"
       />
     </div>
   );

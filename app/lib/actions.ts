@@ -7,6 +7,7 @@ import {
   MovieResult,
   NetworkError,
   ServerError,
+  ShowResult,
 } from "./types";
 
 const API_URL = "https://api.themoviedb.org/3";
@@ -83,6 +84,41 @@ export const fetchMovies = async (
   }
 };
 
+export const fetchShows = async (
+  type: "popular" | "top_rated" | "airing_today" | "on_the_air"
+): Promise<ShowResult[] | null> => {
+  if (!token) return handleNoToken();
+  const options = getHeaders("GET");
+  try {
+    const response = await fetch(
+      `${API_URL}/tv/${type}?language=en-US&page=1`,
+      options
+    );
+    const data = await handleResponse(response);
+    return data?.results;
+  } catch (err) {
+    return handleError(err, `Error fetching ${type}`);
+  }
+};
+
+export const fetchTrending = async (
+  type: "tv" | "movie",
+  window: "day" | "week"
+): Promise<MovieResult[] | ShowResult[] | null> => {
+  if (!token) return handleNoToken();
+  const options = getHeaders("GET");
+  try {
+    const response = await fetch(
+      `${API_URL}/trending/${type}/${window}?language=en-US&page=1`,
+      options
+    );
+    const data = await handleResponse(response);
+    return data?.results;
+  } catch (err) {
+    return handleError(err, `Error fetching ${type}`);
+  }
+};
+
 export const fetchMovieById = async (
   movie_id: string
 ): Promise<MovieDetails | null> => {
@@ -97,5 +133,22 @@ export const fetchMovieById = async (
     return data;
   } catch (err) {
     return handleError(err, `Error fetching movie id:${movie_id}`);
+  }
+};
+
+export const fetchShowById = async (
+  series_id: string
+): Promise<MovieDetails | null> => {
+  if (!token) return handleNoToken();
+  const options = getHeaders("GET");
+  try {
+    const response = await fetch(
+      `${API_URL}/tv/${series_id}?append_to_response=credits,recommendations,reviews&language=en-US`,
+      options
+    );
+    const data = await handleResponse(response);
+    return data;
+  } catch (err) {
+    return handleError(err, `Error fetching movie id:${series_id}`);
   }
 };

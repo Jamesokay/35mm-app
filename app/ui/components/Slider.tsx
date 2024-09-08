@@ -44,6 +44,7 @@ const Slider: React.FC<{ children: ReactNode; title: string, secondaryButton?: R
 
       <div className="relative w-full">
         <button
+          aria-label="Scroll left"
           className={`absolute left-0 top-1/2 transform -translate-y-1/2 bg-gradient-to-r from-[rgba(16,16,16,0.8)] to-transparent h-full w-24 flex items-center justify-center text-white p-2 z-50 transition-opacity duration-300 ${
             showLeftArrow ? "opacity-100" : "opacity-0"
           }`}
@@ -62,6 +63,7 @@ const Slider: React.FC<{ children: ReactNode; title: string, secondaryButton?: R
           {children}
         </div>
         <button
+          aria-label="Scroll right"
           className={`absolute right-0 top-1/2 transform -translate-y-1/2 bg-gradient-to-l from-[rgba(16,16,16,0.8)] to-transparent h-full w-24 flex items-center justify-center text-white p-2 z-50 transition-opacity duration-300 ${
             showRightArrow ? "opacity-100" : "opacity-0"
           }`}
