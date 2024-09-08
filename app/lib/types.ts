@@ -131,6 +131,10 @@ type BaseDetails = {
     page: number;
     results: MovieResult[] | ShowResult[];
   };
+  credits?: {
+    cast: CastMember[];
+    crew: CrewMember[];
+  };
 };
 
 export type MovieDetails = BaseDetails & {
@@ -144,10 +148,6 @@ export type MovieDetails = BaseDetails & {
   runtime: number | null;
   title: string;
   video: boolean;
-  credits?: {
-    cast: CastMember[];
-    crew: CrewMember[];
-  };
 };
 
 type Episode = {

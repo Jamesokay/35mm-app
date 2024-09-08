@@ -6,7 +6,7 @@ import Link from "next/link";
 const PersonCard: FC<{ person: CastMember | CrewMember }> = ({ person }) => {
   return (
     <Link href={`/people/${person?.id}`}>
-      <div className="flex flex-col hover:text-35mm-green-bright transition-colors duration-300">
+      <div className="flex flex-col max-w-[170px] hover:text-35mm-green-bright transition-colors duration-300">
         <ImageComponent
           className="w-[170px] min-w-[170px] h-auto rounded-md"
           type="profile_sizes"

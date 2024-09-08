@@ -7,6 +7,7 @@ import {
   MovieResult,
   NetworkError,
   ServerError,
+  ShowDetails,
   ShowResult,
 } from "./types";
 
@@ -138,7 +139,7 @@ export const fetchMovieById = async (
 
 export const fetchShowById = async (
   series_id: string
-): Promise<MovieDetails | null> => {
+): Promise<ShowDetails | null> => {
   if (!token) return handleNoToken();
   const options = getHeaders("GET");
   try {
