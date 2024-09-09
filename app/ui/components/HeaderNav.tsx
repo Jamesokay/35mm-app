@@ -45,7 +45,7 @@ const HeaderNav = () => {
             <span className="overlay-text">35</span><span className="text-xs">mm</span>
           </div>
         </Link>
-        <nav className="flex gap-8">
+        {/* <nav className="flex gap-8">
           <Link
             href="/movies"
             className="font-semibold text-lg overlay-text text-35mm-off-white hover:text-white transition-colors"
@@ -64,7 +64,7 @@ const HeaderNav = () => {
           >
             People
           </Link>
-        </nav>
+        </nav> */}
       </div>
       <div className="flex items-center">
         <nav className="flex items-center gap-8">

@@ -11,6 +11,7 @@ const PersonCard: FC<{ person: CastMember | CrewMember }> = ({ person }) => {
           className="w-[170px] min-w-[170px] h-auto rounded-md"
           type="profile_sizes"
           filePath={person?.profile_path || ""}
+          omitLargeSizes
         />
         <div className="flex flex-col py-3 gap-2">
           <p className="font-medium">{person?.name}</p>

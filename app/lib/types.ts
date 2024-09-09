@@ -1,4 +1,4 @@
-// TMDB Data Types
+// Movie and Series Types
 
 export type ImageConfig = {
   backdrop_sizes: string[];
@@ -175,7 +175,7 @@ type Season = {
   poster_path: string | null;
   season_number: number;
   vote_average: number;
-}
+};
 
 type ShowCreator = {
   id: number;
@@ -184,14 +184,14 @@ type ShowCreator = {
   original_name: string;
   gender: number;
   profile_path: string | null;
-}
+};
 
 type ShowNetwork = {
   id: number;
   logo_path: string | null;
   name: string;
   origin_country: string;
-}
+};
 
 export type ShowDetails = BaseDetails & {
   created_by: ShowCreator[];
@@ -209,6 +209,58 @@ export type ShowDetails = BaseDetails & {
   original_name: string;
   seasons: Season[];
   type: string;
+};
+
+// People Types
+
+export type BasePersonCredit = {
+  adult: boolean;
+  backdrop_path: string | null;
+  genre_ids: number[];
+  id: number;
+  original_language: string;
+  original_title: string;
+  overview: string;
+  popularity: number;
+  poster_path: string | null;
+  release_date: string;
+  title: string;
+  video: boolean;
+  vote_average: number;
+  vote_count: number;
+  credit_id: string;
+  media_type: string;
+};
+
+export type PersonCastCredit = BasePersonCredit & {
+  character: string;
+  order: number;
+};
+
+export type PersonCrewCredit = BasePersonCredit & {
+  department: string;
+  job: string;
+};
+
+export type PersonDetails = {
+  adult: boolean;
+  also_known_as: string[];
+  biography: string;
+  birthday: string | null;
+  deathday: string | null;
+  gender: 1 | 2 | 3;
+  homepage: string | null;
+  id: number;
+  imdb_id: string;
+  known_for_department: string;
+  name: string;
+  place_of_birth: string | null;
+  popularity: number;
+  profile_path: string | null;
+  combined_credits?: {
+    cast: PersonCastCredit[];
+    crew: PersonCrewCredit[];
+  };
 };
 
 // Custom Error Types

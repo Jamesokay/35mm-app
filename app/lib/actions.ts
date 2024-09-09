@@ -6,6 +6,7 @@ import {
   MovieDetails,
   MovieResult,
   NetworkError,
+  PersonDetails,
   ServerError,
   ShowDetails,
   ShowResult,
@@ -151,5 +152,22 @@ export const fetchShowById = async (
     return data;
   } catch (err) {
     return handleError(err, `Error fetching movie id:${series_id}`);
+  }
+};
+
+export const fetchPersonById = async (
+  person_id: string
+): Promise<PersonDetails | null> => {
+  if (!token) return handleNoToken();
+  const options = getHeaders("GET");
+  try {
+    const response = await fetch(
+      `${API_URL}/person/${person_id}?append_to_response=combined_credits&language=en-US`,
+      options
+    );
+    const data = await handleResponse(response);
+    return data;
+  } catch (err) {
+    return handleError(err, `Error fetching person id:${person_id}`);
   }
 };

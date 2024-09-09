@@ -23,6 +23,7 @@ const PosterCard: FC<{
               type="poster_sizes"
               filePath={content.poster_path}
               alt={isMovie ? content.title : content.name}
+              omitLargeSizes
             />
           )}
           <div className="absolute p-3 border border-gray-200 rounded-lg backdrop-blur-sm gap-2 left-0 top-0 flex flex-col bg-35mm-black-dark-opal overflow-hidden h-full w-full z-20 transition-opacity duration-500 ease-out opacity-0 hover:opacity-100">

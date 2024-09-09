@@ -10,6 +10,7 @@ interface ImageProps {
   filePath: string;
   alt?: string;
   className?: string;
+  omitLargeSizes?: boolean;
 }
 
 const ImageComponent: FC<ImageProps> = ({
@@ -17,13 +18,14 @@ const ImageComponent: FC<ImageProps> = ({
   filePath,
   alt,
   className = "",
+  omitLargeSizes = false
 }) => {
   const config = useImageConfig();
   const imageRef = useRef<HTMLImageElement | null>(null);
   const [loaded, setLoaded] = useState(false);
 
   // Construct srcset using the available sizes from the config
-  const srcSet = constructSrcSet(config, type, filePath);
+  const srcSet = constructSrcSet(config, type, filePath, omitLargeSizes);
   const defaultSize = config?.[type]?.[0]; // Use the smallest size as the default src
 
   useEffect(() => {
@@ -41,7 +43,7 @@ const ImageComponent: FC<ImageProps> = ({
       </div>
       <img
         ref={imageRef}
-        className={`h-full w-full transition-opacity duration-300 ${
+        className={`h-full w-full object-cover transition-opacity duration-300 ${
           loaded ? "opacity-100" : "opacity-0"
         }`}
         src={`${

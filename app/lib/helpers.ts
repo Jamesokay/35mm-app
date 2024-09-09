@@ -1,41 +1,51 @@
 import { ImageConfig } from "./types";
 
-// Generate srcset based on available sizes and filePath
 export const constructSrcSet = (
   config: ImageConfig | null,
   type: keyof Omit<ImageConfig, "secure_base_url" | "base_url">,
-  filePath: string
+  filePath: string,
+  omitLargeSizes: boolean // new parameter to control whether large sizes should be excluded
 ): string => {
   if (!config || !filePath) return '';
 
   let availableSizes = config[type];
 
-  // Filter out sizes greater than 500 and exclude "original" for poster_sizes
-  if (type === 'poster_sizes') {
+  // Filter out large sizes based on omitLargeSizes condition
+  if (omitLargeSizes) {
     availableSizes = availableSizes.filter(size => {
-      const width = getWidthFromSize(size); // Extract the numeric width
-      return width !== null && width <= 500; // Keep sizes that are <= 500, exclude "original"
+      const sizeValue = getSizeValue(size); // Extract numeric width/height
+      return sizeValue !== null && sizeValue <= 500; // Omit sizes > 500 (height or width), and 'original'
     });
   }
 
   // Construct the srcset by mapping sizes to the appropriate URL
   const srcSet = availableSizes
     .map((size) => {
-      const width = getWidthFromSize(size); // Get the width from the size string
-      return `${config.secure_base_url || config.base_url}${size}/${filePath} ${width}w`;
+      const sizeValue = getSizeValue(size); // Get numeric size (width or height)
+      return size === 'original' 
+        ? `${config.secure_base_url || config.base_url}${size}/${filePath} ${sizeValue || 1000}w` // Fallback value for 'original'
+        : `${config.secure_base_url || config.base_url}${size}/${filePath} ${sizeValue}w`;
     })
     .join(", ");
 
   return srcSet;
 };
 
-
-// Helper function to extract the numeric width from the size string
-const getWidthFromSize = (size: string): number => {
-  // For example, if size is 'w500', return 500
-  const match = size.match(/^w(\d+)$/);
-  return match ? parseInt(match[1], 10) : 0; // Return 0 for 'original' or invalid sizes
+// Helper function to extract the numeric width/height from the size string
+const getSizeValue = (size: string): number | null => {
+  const widthMatch = size.match(/^w(\d+)$/); // Match width-based sizes (e.g., 'w500')
+  const heightMatch = size.match(/^h(\d+)$/); // Match height-based sizes (e.g., 'h500')
+  
+  if (widthMatch) {
+    return parseInt(widthMatch[1], 10); // Return numeric width
+  }
+  if (heightMatch) {
+    return parseInt(heightMatch[1], 10); // Return numeric height
+  }
+  
+  return size === 'original' ? null : 0; // Return null for 'original', otherwise 0 for invalid sizes
 };
+
 
 export const convertVoteAverageToPercentage = (num: number): number => {
   return Math.round(num * 10);
