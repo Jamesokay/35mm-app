@@ -24,6 +24,10 @@ body {
   text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4);
 }
 
+.slider-nav-arrow {
+  height: calc(100% - 64px);
+}
+
 .scrollbar-hide {
   /* Hide scrollbar */
   -ms-overflow-style: none; /* Internet Explorer 10+ */

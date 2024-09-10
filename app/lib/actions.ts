@@ -5,11 +5,14 @@ import {
   ImageConfig,
   MovieDetails,
   MovieResult,
+  MovieSearchResponse,
   NetworkError,
   PersonDetails,
+  PersonSearchResponse,
   ServerError,
   ShowDetails,
   ShowResult,
+  ShowSearchResponse,
 } from "./types";
 
 const API_URL = "https://api.themoviedb.org/3";
@@ -169,5 +172,68 @@ export const fetchPersonById = async (
     return data;
   } catch (err) {
     return handleError(err, `Error fetching person id:${person_id}`);
+  }
+};
+
+export const searchPeople = async (
+  query: string
+): Promise<PersonSearchResponse | null> => {
+  if (!token) return handleNoToken();
+  const options = getHeaders("GET");
+  const encodedQuery = encodeURIComponent(query);
+  try {
+    const response = await fetch(
+      `${API_URL}/search/person?query=${encodedQuery}`,
+      options
+    );
+    const data = await handleResponse(response);
+    return data;
+  } catch (err) {
+    return handleError(
+      err,
+      `Error fetching search results for query: ${query}`
+    );
+  }
+};
+
+export const searchShows = async (
+  query: string
+): Promise<ShowSearchResponse | null> => {
+  if (!token) return handleNoToken();
+  const options = getHeaders("GET");
+  const encodedQuery = encodeURIComponent(query);
+  try {
+    const response = await fetch(
+      `${API_URL}/search/tv?query=${encodedQuery}`,
+      options
+    );
+    const data = await handleResponse(response);
+    return data;
+  } catch (err) {
+    return handleError(
+      err,
+      `Error fetching search results for query: ${query}`
+    );
+  }
+};
+
+export const searchMovies = async (
+  query: string
+): Promise<MovieSearchResponse | null> => {
+  if (!token) return handleNoToken();
+  const options = getHeaders("GET");
+  const encodedQuery = encodeURIComponent(query);
+  try {
+    const response = await fetch(
+      `${API_URL}/search/movie?query=${encodedQuery}`,
+      options
+    );
+    const data = await handleResponse(response);
+    return data;
+  } catch (err) {
+    return handleError(
+      err,
+      `Error fetching search results for query: ${query}`
+    );
   }
 };

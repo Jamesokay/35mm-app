@@ -1,9 +1,9 @@
-import { CastMember, CrewMember } from "@/app/lib/types";
+import { CastMember, CrewMember, PersonSearchResult } from "@/app/lib/types";
 import { FC } from "react";
 import ImageComponent from "./ImageComponent";
 import Link from "next/link";
 
-const PersonCard: FC<{ person: CastMember | CrewMember }> = ({ person }) => {
+const PersonCard: FC<{ person: CastMember | CrewMember | PersonSearchResult }> = ({ person }) => {
   return (
     <Link href={`/people/${person?.id}`}>
       <div className="flex flex-col max-w-[170px] hover:text-35mm-green-bright transition-colors duration-300">
