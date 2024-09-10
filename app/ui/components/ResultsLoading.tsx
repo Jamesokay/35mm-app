@@ -1,5 +1,5 @@
 import { FC } from "react";
-import Slider from "../components/Slider";
+import Slider from "./Slider";
 
 const ResultsLoading: FC<{ title: string }> = ({ title }) => {
   const placeholderArray = Array.from({ length: 10 });

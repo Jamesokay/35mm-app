@@ -55,7 +55,7 @@ const Slider: React.FC<{ children: ReactNode; title: string, secondaryButton?: R
           </div>
         </button>
         <div
-          className="flex gap-4 px-24 py-8 overflow-x-scroll scrollbar-hide scroll-snap-x"
+          className="flex gap-4 px-24 py-8 overflow-x-scroll scrollbar-hide scroll-snap-x min-h-[300px]"
           ref={sliderRef}
           onScroll={handleScroll}
           style={{ scrollSnapType: "x mandatory" }}

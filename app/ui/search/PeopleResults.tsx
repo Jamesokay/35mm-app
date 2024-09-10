@@ -6,7 +6,7 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Slider from "../components/Slider";
 import PersonCard from "../components/PersonCard";
-import ResultsLoading from "./ResultsLoading";
+import ResultsLoading from "../components/ResultsLoading";
 
 const PeopleResults = () => {
   const searchParams = useSearchParams();
