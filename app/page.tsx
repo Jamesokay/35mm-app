@@ -22,6 +22,7 @@ const Home = async () => {
             className="w-[100dvw] h-[100dvh]"
             type="backdrop_sizes"
             filePath={featuredContent?.backdrop_path}
+            alt={featuredContent?.title}
           />
         )}
       </div>

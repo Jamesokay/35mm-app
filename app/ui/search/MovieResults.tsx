@@ -20,7 +20,12 @@ const MovieResults = () => {
       setLoading(true);
       try {
         const response = await searchMovies(query);
-        if (response) setResults(response?.results);
+        if (response) {
+          const filtered = response?.results?.filter(
+            (result) => result.vote_count > 1000
+          );
+          setResults(filtered);
+        }
       } catch (err) {
         console.error(err);
       } finally {
@@ -33,6 +38,8 @@ const MovieResults = () => {
   if (loading) {
     return <ResultsLoading title="Movies" />;
   }
+
+  if (!loading && !results.length) return null;
 
   return (
     <Slider title="Movies">

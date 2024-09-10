@@ -20,7 +20,12 @@ const ShowResults = () => {
       setLoading(true);
       try {
         const response = await searchShows(query);
-        if (response) setResults(response?.results);
+        if (response) {
+          const filtered = response.results?.filter(
+            (result) => result.vote_count > 1000
+          );
+          setResults(filtered);
+        }
       } catch (err) {
         console.error(err);
       } finally {
@@ -33,6 +38,8 @@ const ShowResults = () => {
   if (loading) {
     return <ResultsLoading title="TV Shows" />;
   }
+
+  if (!loading && !results.length) return null;
 
   return (
     <div className="flex">

@@ -20,7 +20,12 @@ const PeopleResults = () => {
       setLoading(true);
       try {
         const response = await searchPeople(query);
-        if (response) setResults(response?.results);
+        if (response) {
+          const filtered = response.results?.filter(
+            (result) => result.popularity > 10
+          );
+          setResults(filtered);
+        }
       } catch (err) {
         console.error(err);
       } finally {
@@ -33,6 +38,8 @@ const PeopleResults = () => {
   if (loading) {
     return <ResultsLoading title="People" />;
   }
+
+  if (!loading && !results.length) return null;
 
   return (
     <div className="flex">
