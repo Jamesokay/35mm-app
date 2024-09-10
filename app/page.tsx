@@ -1,4 +1,3 @@
-import { Suspense } from "react";
 import { fetchMovies, fetchTrending } from "./lib/actions";
 import { featured } from "./lib/data";
 import ImageComponent from "./ui/components/ImageComponent";
@@ -29,17 +28,12 @@ const Home = async () => {
       <div className="flex flex-col z-20">
         <div className="flex flex-col pt-[45dvh] bg-35mm-homepage-gradient gap-12">
           {featuredContent && <HeroContent content={featuredContent} />}
-          <Suspense
-            fallback={<div className="w-full h-[300px] bg-red-500"></div>}
-          >
-            <Slider title="Trending Movies">
-              {trendingMovies?.map((result) => (
-                <PosterCard key={result.id} content={result} />
-              ))}
-            </Slider>
-          </Suspense>
+          <Slider title="Trending Movies">
+            {trendingMovies?.map((result) => (
+              <PosterCard key={result.id} content={result} />
+            ))}
+          </Slider>
         </div>
-
         <div className="flex flex-col gap-6 bg-35mm-black-dark">
           <Slider title="Trending TV">
             {trendingShows?.map((result) => (
