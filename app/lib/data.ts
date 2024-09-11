@@ -18,7 +18,7 @@ const pastLives: MovieResult = {
   vote_count: 1521,
 };
 
-const aftersun: MovieResult = {
+export const aftersun: MovieResult = {
   adult: false,
   backdrop_path: "/4jdduww9j5RyzO4ITRcuBFhqNN1.jpg",
   genre_ids: [18],

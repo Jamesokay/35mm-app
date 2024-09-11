@@ -80,13 +80,13 @@ const HeaderNav = () => {
             <SearchBar />
             <nav className="flex items-center gap-8">
               <Link
-                href="/login"
+                href="/auth/login"
                 className="font-semibold text-lg overlay-text text-35mm-off-white hover:text-white transition-colors"
               >
                 Login
               </Link>
               <Link
-                href="/sign-up"
+                href="/auth/signup"
                 className={`font-semibold text-lg overlay-text border px-4 py-2 rounded-md transition-all ease-in-out duration-500 shadow-none ${
                   transparentNavbar
                     ? "border-transparent"
