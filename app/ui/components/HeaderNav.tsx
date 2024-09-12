@@ -3,10 +3,13 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import SearchBar from "./SearchBar";
+import { signOut } from "@/app/lib/actions";
+import { createBrowserClient } from "@/app/utils/supabase/client";
 
 const HeaderNav = () => {
   const [transparentNavbar, setTransparentNavbar] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const [authenticated, setAuthenticated] = useState(false);
 
   const handleScroll = () => {
     if (typeof window !== "undefined") {
@@ -23,6 +26,17 @@ const HeaderNav = () => {
       setLastScrollY(currentScrollY);
     }
   };
+
+  useEffect(() => {
+    const getUser = async () => {
+      const supabase = createBrowserClient();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (user) setAuthenticated(true);
+    };
+    getUser();
+  }, []);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -95,6 +109,9 @@ const HeaderNav = () => {
               >
                 Sign Up
               </Link>
+              {authenticated && (
+                <button onClick={() => signOut()}>Sign Out</button>
+              )}
             </nav>
           </div>
         </div>

@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { ChangeEvent, useState } from "react";
-import { useFormStatus } from "react-dom";
+import { useFormState, useFormStatus } from "react-dom";
+import { signup } from "@/app/lib/actions";
 
 const SignupButton = () => {
   const { pending } = useFormStatus();
@@ -23,10 +24,10 @@ const SignupForm = () => {
     email: "",
     password: "",
   });
-  //   const [formState, dispatch] = useFormState(signup, {
-  //     success: false,
-  //     message: "",
-  //   });
+    const [formState, dispatch] = useFormState(signup, {
+      success: false,
+      message: "",
+    });
 
   const handleInputChange = (
     e: ChangeEvent<HTMLInputElement>,
@@ -36,7 +37,7 @@ const SignupForm = () => {
   };
 
   return (
-    <form>
+    <form action={dispatch}>
       <div className="flex flex-col w-[320px] items-center gap-3 px-4 py-6 bg-35mm-black-header rounded-md">
         <div className="flex items-center text-7xl font-bold transition-colors duration-500 text-35mm-green-bright mb-3">
           <span className="overlay-text">35</span>

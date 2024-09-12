@@ -1,5 +1,7 @@
 "use server";
 
+import { AuthError } from "@supabase/supabase-js";
+import { createServerClient } from "../utils/supabase/server";
 import {
   ClientError,
   ImageConfig,
@@ -14,6 +16,8 @@ import {
   ShowResult,
   ShowSearchResponse,
 } from "./types";
+import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 
 const API_URL = "https://api.themoviedb.org/3";
 const token = process.env.TMDB_READ_ACCESS;
@@ -237,3 +241,73 @@ export const searchMovies = async (
     );
   }
 };
+
+// Supabase DB Actions
+
+export async function login(
+  prevState: string | undefined | null,
+  formData: FormData
+) {
+  const supabaseServerClient = createServerClient();
+  try {
+    const credentials = {
+      email: formData.get("email") as string,
+      password: formData.get("password") as string,
+    };
+    const { error } = await supabaseServerClient.auth.signInWithPassword(
+      credentials
+    );
+
+    if (error) {
+      throw error;
+    }
+    revalidatePath("/", "layout");
+  } catch (error) {
+    console.error(error);
+    if (error instanceof AuthError) {
+      return error.message;
+    } else {
+      return "An unexpected error occurred";
+    }
+  }
+  redirect("/user");
+}
+
+type SignUpFormType = {
+  success: boolean;
+  message: string;
+};
+
+export async function signup(prevState: SignUpFormType, formData: FormData) {
+  try {
+    const supabaseServerClient = createServerClient();
+    const credentials = {
+      email: formData.get("email") as string,
+      password: formData.get("password") as string,
+    };
+
+    const { error } = await supabaseServerClient.auth.signUp(credentials);
+
+    if (error) {
+      throw error;
+    }
+    return { success: true, message: "Check your email" };
+  } catch (error) {
+    if (error instanceof AuthError) {
+      return { success: false, message: error.message };
+    } else {
+      return { success: false, message: "An unexpected error occurred" };
+    }
+  }
+}
+
+export async function signOut() {
+  try {
+    const supabaseServerClient = createServerClient();
+    const { error } = await supabaseServerClient.auth.signOut();
+    if (error) throw error;
+  } catch (err) {
+    console.error(err);
+  }
+  redirect("/");
+}
