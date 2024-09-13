@@ -3,9 +3,9 @@
 import Link from "next/link";
 import { ChangeEvent, useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
-import { signup } from "@/app/lib/actions";
+import { login } from "@/app/lib/actions";
 
-const SignupButton = () => {
+const LoginButton = () => {
   const { pending } = useFormStatus();
   return (
     <button
@@ -14,20 +14,17 @@ const SignupButton = () => {
       className="self-center flex justify-center items-center relative h-10 w-full bg-35mm-green-bright px-12 rounded-lg text-black font-medium py-2 mt-3 hover:shadow-35mm-green-glow"
     >
       <div className={pending ? "flex" : "hidden"}>Loading</div>
-      <span className={pending ? "hidden" : "flex"}>Sign up</span>
+      <span className={pending ? "hidden" : "flex"}>Login</span>
     </button>
   );
 };
 
-const SignupForm = () => {
+const LoginForm = () => {
   const [fields, setFields] = useState<{ email: string; password: string }>({
     email: "",
     password: "",
   });
-    const [formState, dispatch] = useFormState(signup, {
-      success: false,
-      message: "",
-    });
+  const [errorMessage, dispatch] = useFormState(login, null);
 
   const handleInputChange = (
     e: ChangeEvent<HTMLInputElement>,
@@ -78,16 +75,17 @@ const SignupForm = () => {
             onChange={(e) => handleInputChange(e, "password")}
           />
         </div>
-        <SignupButton />
+        {errorMessage && <p className="text-sm text-red-500">{errorMessage}</p>}
+        <LoginButton />
         <Link
-          href="/auth/login"
+          href="/auth/signup"
           className="text-35mm-green-bright text-sm hover:underline"
         >
-          Already have an account? Login
+          Don&apos;t have an account? Sign up
         </Link>
       </div>
     </form>
   );
 };
 
-export default SignupForm;
+export default LoginForm;

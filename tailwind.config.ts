@@ -10,11 +10,9 @@ const config: Config = {
     extend: {
       backgroundImage: {
         "35mm-homepage-gradient":
-          "linear-gradient(to bottom, rgba(16, 16, 16, 0), rgba(16, 16, 16, 1))",
+          "linear-gradient(to bottom, rgba(16, 16, 16, 0.15), rgba(16, 16, 16, 1))",
         "35mm-backdrop-gradient":
-          "linear-gradient(to top, rgba(16, 16, 16, 1) 0%, rgba(16, 16, 16, 0.8) 25%, rgba(16, 16, 16, 0.4) 50%, rgba(16, 16, 16, 0.2) 75%, rgba(16, 16, 16, 0) 100%)",
-         "35mm-header-gradient":
-          "linear-gradient(to bottom, rgba(16, 16, 16, 1), rgba(16, 16, 16, 0))"
+          "linear-gradient(to top, rgba(16, 16, 16, 1) 0%, rgba(16, 16, 16, 0.8) 25%, rgba(16, 16, 16, 0.4) 50%, rgba(16, 16, 16, 0.2) 75%, rgba(16, 16, 16, 0) 100%)"
       },
       backgroundColor: {
         "35mm-black-dark-opal": "rgba(16, 16, 16, 0.8)",

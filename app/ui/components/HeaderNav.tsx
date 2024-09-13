@@ -3,13 +3,13 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import SearchBar from "./SearchBar";
+import { useSupabaseAuth } from "@/app/context/SupabaseAuthContext";
 import { signOut } from "@/app/lib/actions";
-import { createBrowserClient } from "@/app/utils/supabase/client";
 
 const HeaderNav = () => {
+  const user = useSupabaseAuth();
   const [transparentNavbar, setTransparentNavbar] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
-  const [authenticated, setAuthenticated] = useState(false);
 
   const handleScroll = () => {
     if (typeof window !== "undefined") {
@@ -26,17 +26,6 @@ const HeaderNav = () => {
       setLastScrollY(currentScrollY);
     }
   };
-
-  useEffect(() => {
-    const getUser = async () => {
-      const supabase = createBrowserClient();
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-      if (user) setAuthenticated(true);
-    };
-    getUser();
-  }, []);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -68,51 +57,31 @@ const HeaderNav = () => {
                 <span className="text-xs">mm</span>
               </div>
             </Link>
-            {/* <nav className="flex gap-8">
-          <Link
-            href="/movies"
-            className="font-semibold text-lg overlay-text text-35mm-off-white hover:text-white transition-colors"
-          >
-            Movies
-          </Link>
-          <Link
-            href="/tv"
-            className="font-semibold text-lg overlay-text text-35mm-off-white hover:text-white transition-colors"
-          >
-            TV Shows
-          </Link>
-          <Link
-            href="/people"
-            className="font-semibold text-lg overlay-text text-35mm-off-white hover:text-white transition-colors"
-          >
-            People
-          </Link>
-        </nav> */}
           </div>
-
           <div className="flex items-center gap-8">
             <SearchBar />
-            <nav className="flex items-center gap-8">
-              <Link
-                href="/auth/login"
-                className="font-semibold text-lg overlay-text text-35mm-off-white hover:text-white transition-colors"
-              >
-                Login
-              </Link>
-              <Link
-                href="/auth/signup"
-                className={`font-semibold text-lg overlay-text border px-4 py-2 rounded-md transition-all ease-in-out duration-500 shadow-none ${
-                  transparentNavbar
-                    ? "border-transparent"
-                    : "text-35mm-green-bright border-35mm-green-bright hover:shadow-35mm-green-glow"
-                }`}
-              >
-                Sign Up
-              </Link>
-              {authenticated && (
-                <button onClick={() => signOut()}>Sign Out</button>
-              )}
-            </nav>
+            {!user ? (
+              <nav className="flex items-center gap-8">
+                <Link
+                  href="/auth/login"
+                  className="font-semibold text-lg overlay-text text-35mm-off-white hover:text-white transition-colors"
+                >
+                  Login
+                </Link>
+                <Link
+                  href="/auth/signup"
+                  className={`font-semibold text-lg overlay-text border px-4 py-2 rounded-md transition-all ease-in-out duration-500 shadow-none ${
+                    transparentNavbar
+                      ? "border-transparent"
+                      : "text-35mm-green-bright border-35mm-green-bright hover:shadow-35mm-green-glow"
+                  }`}
+                >
+                  Sign Up
+                </Link>
+              </nav>
+            ) : (
+              <button onClick={() => signOut()}>Sign Out</button>
+            )}
           </div>
         </div>
       </div>

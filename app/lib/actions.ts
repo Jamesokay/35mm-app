@@ -261,7 +261,7 @@ export async function login(
     if (error) {
       throw error;
     }
-    revalidatePath("/", "layout");
+    revalidatePath("/user", "layout");
   } catch (error) {
     console.error(error);
     if (error instanceof AuthError) {

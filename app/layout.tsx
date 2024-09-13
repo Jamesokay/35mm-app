@@ -4,6 +4,8 @@ import { Inter } from "next/font/google";
 import HeaderNav from "./ui/components/HeaderNav";
 import { ImageConfigProvider } from "./context/ImageConfigContext";
 import { fetchConfig } from "./lib/actions";
+import { createServerClient } from "./utils/supabase/server";
+import { SupabaseAuthContextProvider } from "./context/SupabaseAuthContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,12 +20,17 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const imageConfig = await fetchConfig();
+  const supabase = createServerClient();
+  const { data } = await supabase.auth.getUser();
+
   return (
     <html lang="en">
       <body className={`${inter.className} antialiased`}>
         <ImageConfigProvider config={imageConfig}>
-          <HeaderNav />
-          {children}
+          <SupabaseAuthContextProvider user={data.user}>
+            <HeaderNav />
+            {children}
+          </SupabaseAuthContextProvider>
         </ImageConfigProvider>
       </body>
     </html>

@@ -1,7 +1,9 @@
+import LoginForm from "@/app/ui/auth/LoginForm";
+
 const Page = () => {
   return (
     <div className="flex w-full h-full justify-center items-center">
-      Login Page
+      <LoginForm />
     </div>
   );
 };
