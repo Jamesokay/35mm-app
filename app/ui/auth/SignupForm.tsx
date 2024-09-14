@@ -78,6 +78,7 @@ const SignupForm = () => {
             onChange={(e) => handleInputChange(e, "password")}
           />
         </div>
+        {formState?.message && <p>{formState.message}</p>}
         <SignupButton />
         <Link
           href="/auth/login"

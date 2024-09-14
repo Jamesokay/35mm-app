@@ -11,6 +11,7 @@ const SearchBar = () => {
   const router = useRouter();
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     // Store the current route when the search bar first receives input
@@ -18,6 +19,29 @@ const SearchBar = () => {
       setPreviousRoute(window.location.pathname);
     }
   }, [searchQuery, previousRoute]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target as Node)
+      ) {
+        // User clicked outside the search bar
+        setShowSearchBar(false);
+        setSearchQuery("");
+        inputRef.current?.blur();
+      }
+    };
+    if (showSearchBar) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showSearchBar]);
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const query = event.target.value;
@@ -30,7 +54,6 @@ const SearchBar = () => {
 
     // If the user clears the search bar, return to the previous route
     if (query === "" && previousRoute) {
-      console.log("go to" + previousRoute);
       router.push(previousRoute); // Navigate back to the previously stored route
       setPreviousRoute(null);
     } else {
@@ -56,6 +79,7 @@ const SearchBar = () => {
 
   return (
     <div
+      ref={containerRef}
       className={`flex items-center rounded-md transition-all duration-500 ease-in-out  ${
         showSearchBar ? "w-[500px] bg-35mm-black-dark-opal" : "w-8"
       }`}
